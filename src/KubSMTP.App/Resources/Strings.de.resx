@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms</value>
+  </resheader>
+  <data name=" attachment(s)" xml:space="preserve">
+    <value> Anhang/Anhänge</value>
+  </data>
+  <data name="Accepted by SMTP server. Delivery is not confirmed." xml:space="preserve">
+    <value>Vom SMTP-Server angenommen. Zustellung nicht bestätigt.</value>
+  </data>
+  <data name="Add attachment" xml:space="preserve">
+    <value>Anhang hinzufügen</value>
+  </data>
+  <data name="Authentication" xml:space="preserve">
+    <value>Anmeldung</value>
+  </data>
+  <data name="BCC  optional" xml:space="preserve">
+    <value>BCC  optional</value>
+  </data>
+  <data name="CC  optional" xml:space="preserve">
+    <value>CC  optional</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="Cancelled / timed out. Delivery status may be unknown." xml:space="preserve">
+    <value>Abgebrochen / Zeitüberschreitung. Versandstatus gegebenenfalls unbekannt.</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Leeren</value>
+  </data>
+  <data name="Configure a connection. Send a message. Understand the response." xml:space="preserve">
+    <value>Verbindung konfigurieren. Nachricht senden. Antworten verstehen.</value>
+  </data>
+  <data name="Connecting …" xml:space="preserve">
+    <value>Verbindung läuft …</value>
+  </data>
+  <data name="Connection" xml:space="preserve">
+    <value>Verbindung</value>
+  </data>
+  <data name="Connection tested successfully." xml:space="preserve">
+    <value>Verbindung erfolgreich getestet.</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Kopieren</value>
+  </data>
+  <data name="Credentials are redacted." xml:space="preserve">
+    <value>Zugangsdaten werden maskiert.</value>
+  </data>
+  <data name="Credentials for this session only" xml:space="preserve">
+    <value>Zugangsdaten nur für diese Sitzung</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Benutzerdefiniert</value>
+  </data>
+  <data name="Custom port" xml:space="preserve">
+    <value>Benutzerdefinierter Port</value>
+  </data>
+  <data name="Data: %LOCALAPPDATA%\KubSMTP" xml:space="preserve">
+    <value>Daten: %LOCALAPPDATA%\KubSMTP</value>
+  </data>
+  <data name="Draft ▾" xml:space="preserve">
+    <value>Entwurf ▾</value>
+  </data>
+  <data name="Encryption" xml:space="preserve">
+    <value>Verschlüsselung</value>
+  </data>
+  <data name="Error: " xml:space="preserve">
+    <value>Fehler: </value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Exportieren</value>
+  </data>
+  <data name="File missing" xml:space="preserve">
+    <value>Datei fehlt</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>Absender</value>
+  </data>
+  <data name="It was sent with KubSMTP to test the SMTP connection and email delivery." xml:space="preserve">
+    <value>Sie wurde mit KubSMTP versendet, um die SMTP-Verbindung und den Mailversand zu testen.</value>
+  </data>
+  <data name="Live log" xml:space="preserve">
+    <value>Liveprotokoll</value>
+  </data>
+  <data name="Load draft" xml:space="preserve">
+    <value>Entwurf laden</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Nachricht</value>
+  </data>
+  <data name="Message encoding" xml:space="preserve">
+    <value>Codierung der Nachricht</value>
+  </data>
+  <data name="Message format" xml:space="preserve">
+    <value>Nachrichtenformat</value>
+  </data>
+  <data name="No attachments" xml:space="preserve">
+    <value>Keine Anhänge</value>
+  </data>
+  <data name="No authentication" xml:space="preserve">
+    <value>Keine Anmeldung</value>
+  </data>
+  <data name="Password / access token" xml:space="preserve">
+    <value>Passwort / Zugriffstoken</value>
+  </data>
+  <data name="Pause display" xml:space="preserve">
+    <value>Anzeige pausieren</value>
+  </data>
+  <data name="Plain text" xml:space="preserve">
+    <value>Klartext</value>
+  </data>
+  <data name="Port must be between 1 and 65535." xml:space="preserve">
+    <value>Port muss zwischen 1 und 65535 liegen.</value>
+  </data>
+  <data name="READY" xml:space="preserve">
+    <value>BEREIT</value>
+  </data>
+  <data name="Ready for a test" xml:space="preserve">
+    <value>Bereit für einen Test</value>
+  </data>
+  <data name="Ready. Start a test to see the SMTP exchange." xml:space="preserve">
+    <value>Bereit. Test starten, um die SMTP-Kommunikation zu sehen.</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Entfernen</value>
+  </data>
+  <data name="SMTP communication" xml:space="preserve">
+    <value>SMTP-Kommunikation</value>
+  </data>
+  <data name="STARTTLS required" xml:space="preserve">
+    <value>STARTTLS erforderlich</value>
+  </data>
+  <data name="STARTTLS when available" xml:space="preserve">
+    <value>STARTTLS falls verfügbar</value>
+  </data>
+  <data name="Save credentials encrypted for this Windows user" xml:space="preserve">
+    <value>Zugangsdaten für diesen Windows-Benutzer verschlüsselt speichern</value>
+  </data>
+  <data name="Save draft" xml:space="preserve">
+    <value>Entwurf speichern</value>
+  </data>
+  <data name="Save server profile" xml:space="preserve">
+    <value>Serverprofil speichern</value>
+  </data>
+  <data name="Saved / loaded" xml:space="preserve">
+    <value>Gespeichert / geladen</value>
+  </data>
+  <data name="Send test email" xml:space="preserve">
+    <value>Testmail senden</value>
+  </data>
+  <data name="Sending cancelled" xml:space="preserve">
+    <value>Versand abgebrochen</value>
+  </data>
+  <data name="Sending failed" xml:space="preserve">
+    <value>Versand fehlgeschlagen</value>
+  </data>
+  <data name="Server name / IP address" xml:space="preserve">
+    <value>Servername / IP-Adresse</value>
+  </data>
+  <data name="Server profile and credentials" xml:space="preserve">
+    <value>Serverprofil und Zugangsdaten</value>
+  </data>
+  <data name="Subject" xml:space="preserve">
+    <value>Betreff</value>
+  </data>
+  <data name="TLS on connect (SSL/TLS)" xml:space="preserve">
+    <value>TLS ab Verbindungsbeginn (SSL/TLS)</value>
+  </data>
+  <data name="Test an SMTP connection" xml:space="preserve">
+    <value>SMTP-Verbindung testen</value>
+  </data>
+  <data name="Test connection" xml:space="preserve">
+    <value>Verbindung testen</value>
+  </data>
+  <data name="Test email sent successfully" xml:space="preserve">
+    <value>Testmail erfolgreich versendet</value>
+  </data>
+  <data name="Test message" xml:space="preserve">
+    <value>Testnachricht</value>
+  </data>
+  <data name="The selected encoding cannot represent all characters in the subject or message. Please choose UTF-8." xml:space="preserve">
+    <value>Die gewählte Codierung unterstützt nicht alle Zeichen in Betreff oder Nachricht. Bitte UTF-8 wählen.</value>
+  </data>
+  <data name="The test email was accepted by the SMTP server. Delivery to the recipient's inbox is not yet confirmed." xml:space="preserve">
+    <value>Die Testmail wurde vom SMTP-Server angenommen. Die Zustellung im Postfach ist damit noch nicht bestätigt.</value>
+  </data>
+  <data name="This is a test email." xml:space="preserve">
+    <value>Dies ist eine Testmail.</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>Empfänger</value>
+  </data>
+  <data name="Unencrypted" xml:space="preserve">
+    <value>Unverschlüsselt</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Benutzername</value>
+  </data>
+  <data name="Username / password" xml:space="preserve">
+    <value>Benutzername / Passwort</value>
+  </data>
+</root>

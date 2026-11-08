@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+ <PropertyGroup>
+  <OutputType>WinExe</OutputType>
+  <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+  <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+  <RootNamespace>KubSMTP.App</RootNamespace>
+  <ApplicationIcon>../../assets/KubSMTP.ico</ApplicationIcon>
+  <ApplicationManifest>app.manifest</ApplicationManifest>
+  <UseWinUI>true</UseWinUI>
+  <EnableMsixTooling>true</EnableMsixTooling>
+  <DefaultLanguage>en-US</DefaultLanguage>
+  <WindowsPackageType>None</WindowsPackageType>
+  <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+  <PlatformTarget>x64</PlatformTarget>
+  <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+  <SelfContained>true</SelfContained>
+  <PublishSingleFile>true</PublishSingleFile>
+  <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+  <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
+  <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+ </PropertyGroup>
+ <ItemGroup>
+  <!-- Reference the UI components directly; the umbrella package also ships unused AI/ML and Widgets runtimes. -->
+  <PackageReference Include="Microsoft.WindowsAppSDK.WinUI" Version="1.8.251105000"/>
+  <PackageReference Include="Microsoft.WindowsAppSDK.DWrite" Version="1.8.25090401"/>
+  <PackageReference Include="Microsoft.WindowsAppSDK.Runtime" Version="1.8.251106002"/>
+  <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4654"/>
+  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0"/>
+  <ProjectReference Include="../KubSMTP.Services/KubSMTP.Services.csproj"/>
+  <Content Include="../../assets/KubSMTP.ico" Link="Assets/KubSMTP.ico" CopyToOutputDirectory="PreserveNewest"/>
+  <Content Include="../../assets/KubSMTP-concept.png" Link="Assets/KubSMTP.png" CopyToOutputDirectory="PreserveNewest"/>
+ </ItemGroup>
+ <!-- The 1.8 runtime MSIX also contains optional inference engines, even without the ML NuGet package. -->
+ <Target Name="ExcludeUnusedInferenceEngines" BeforeTargets="AddMicrosoftWindowsAppSDKPayloadFilesFromMsix" DependsOnTargets="ExtractMicrosoftWindowsAppSDKMsixFiles">
+  <ItemGroup>
+   <MicrosoftWindowsAppSDKFilesExcluded Include="$(MicrosoftWindowsAppSDKMsixContent)\onnxruntime.dll;$(MicrosoftWindowsAppSDKMsixContent)\DirectML.dll"/>
+  </ItemGroup>
+ </Target>
+ <Target Name="VerifyPortablePublish" BeforeTargets="PrepareForBundle;Publish" Condition="'$(PortablePayload)' != 'true'">
+  <Error Condition="'$(SelfContained)' != 'true'" Text="Portable publishing requires SelfContained=true; an installed .NET runtime must not be required."/>
+  <Error Condition="'$(WindowsAppSDKSelfContained)' != 'true'" Text="Portable publishing requires WindowsAppSDKSelfContained=true."/>
+  <Error Condition="'$(PublishSingleFile)' != 'true'" Text="Portable publishing requires PublishSingleFile=true."/>
+  <Error Condition="'$(IncludeAllContentForSelfExtract)' != 'true'" Text="Portable publishing must include all WinUI content for extraction."/>
+ </Target>
+</Project>
+
+

@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms</value>
+  </resheader>
+  <data name=" attachment(s)" xml:space="preserve">
+    <value> attachment(s)</value>
+  </data>
+  <data name="Accepted by SMTP server. Delivery is not confirmed." xml:space="preserve">
+    <value>Accepted by SMTP server. Delivery is not confirmed.</value>
+  </data>
+  <data name="Add attachment" xml:space="preserve">
+    <value>Add attachment</value>
+  </data>
+  <data name="Authentication" xml:space="preserve">
+    <value>Authentication</value>
+  </data>
+  <data name="BCC  optional" xml:space="preserve">
+    <value>BCC  optional</value>
+  </data>
+  <data name="CC  optional" xml:space="preserve">
+    <value>CC  optional</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Cancelled / timed out. Delivery status may be unknown." xml:space="preserve">
+    <value>Cancelled / timed out. Delivery status may be unknown.</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Configure a connection. Send a message. Understand the response." xml:space="preserve">
+    <value>Configure a connection. Send a message. Understand the response.</value>
+  </data>
+  <data name="Connecting …" xml:space="preserve">
+    <value>Connecting …</value>
+  </data>
+  <data name="Connection" xml:space="preserve">
+    <value>Connection</value>
+  </data>
+  <data name="Connection tested successfully." xml:space="preserve">
+    <value>Connection tested successfully.</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="Credentials are redacted." xml:space="preserve">
+    <value>Credentials are redacted.</value>
+  </data>
+  <data name="Credentials for this session only" xml:space="preserve">
+    <value>Credentials for this session only</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="Custom port" xml:space="preserve">
+    <value>Custom port</value>
+  </data>
+  <data name="Data: %LOCALAPPDATA%\KubSMTP" xml:space="preserve">
+    <value>Data: %LOCALAPPDATA%\KubSMTP</value>
+  </data>
+  <data name="Draft ▾" xml:space="preserve">
+    <value>Draft ▾</value>
+  </data>
+  <data name="Encryption" xml:space="preserve">
+    <value>Encryption</value>
+  </data>
+  <data name="Error: " xml:space="preserve">
+    <value>Error: </value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="File missing" xml:space="preserve">
+    <value>File missing</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="It was sent with KubSMTP to test the SMTP connection and email delivery." xml:space="preserve">
+    <value>It was sent with KubSMTP to test the SMTP connection and email delivery.</value>
+  </data>
+  <data name="Live log" xml:space="preserve">
+    <value>Live log</value>
+  </data>
+  <data name="Load draft" xml:space="preserve">
+    <value>Load draft</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="Message encoding" xml:space="preserve">
+    <value>Message encoding</value>
+  </data>
+  <data name="Message format" xml:space="preserve">
+    <value>Message format</value>
+  </data>
+  <data name="No attachments" xml:space="preserve">
+    <value>No attachments</value>
+  </data>
+  <data name="No authentication" xml:space="preserve">
+    <value>No authentication</value>
+  </data>
+  <data name="Password / access token" xml:space="preserve">
+    <value>Password / access token</value>
+  </data>
+  <data name="Pause display" xml:space="preserve">
+    <value>Pause display</value>
+  </data>
+  <data name="Plain text" xml:space="preserve">
+    <value>Plain text</value>
+  </data>
+  <data name="Port must be between 1 and 65535." xml:space="preserve">
+    <value>Port must be between 1 and 65535.</value>
+  </data>
+  <data name="READY" xml:space="preserve">
+    <value>READY</value>
+  </data>
+  <data name="Ready for a test" xml:space="preserve">
+    <value>Ready for a test</value>
+  </data>
+  <data name="Ready. Start a test to see the SMTP exchange." xml:space="preserve">
+    <value>Ready. Start a test to see the SMTP exchange.</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="SMTP communication" xml:space="preserve">
+    <value>SMTP communication</value>
+  </data>
+  <data name="STARTTLS required" xml:space="preserve">
+    <value>STARTTLS required</value>
+  </data>
+  <data name="STARTTLS when available" xml:space="preserve">
+    <value>STARTTLS when available</value>
+  </data>
+  <data name="Save credentials encrypted for this Windows user" xml:space="preserve">
+    <value>Save credentials encrypted for this Windows user</value>
+  </data>
+  <data name="Save draft" xml:space="preserve">
+    <value>Save draft</value>
+  </data>
+  <data name="Save server profile" xml:space="preserve">
+    <value>Save server profile</value>
+  </data>
+  <data name="Saved / loaded" xml:space="preserve">
+    <value>Saved / loaded</value>
+  </data>
+  <data name="Send test email" xml:space="preserve">
+    <value>Send test email</value>
+  </data>
+  <data name="Sending cancelled" xml:space="preserve">
+    <value>Sending cancelled</value>
+  </data>
+  <data name="Sending failed" xml:space="preserve">
+    <value>Sending failed</value>
+  </data>
+  <data name="Server name / IP address" xml:space="preserve">
+    <value>Server name / IP address</value>
+  </data>
+  <data name="Server profile and credentials" xml:space="preserve">
+    <value>Server profile and credentials</value>
+  </data>
+  <data name="Subject" xml:space="preserve">
+    <value>Subject</value>
+  </data>
+  <data name="TLS on connect (SSL/TLS)" xml:space="preserve">
+    <value>TLS on connect (SSL/TLS)</value>
+  </data>
+  <data name="Test an SMTP connection" xml:space="preserve">
+    <value>Test an SMTP connection</value>
+  </data>
+  <data name="Test connection" xml:space="preserve">
+    <value>Test connection</value>
+  </data>
+  <data name="Test email sent successfully" xml:space="preserve">
+    <value>Test email sent successfully</value>
+  </data>
+  <data name="Test message" xml:space="preserve">
+    <value>Test message</value>
+  </data>
+  <data name="The selected encoding cannot represent all characters in the subject or message. Please choose UTF-8." xml:space="preserve">
+    <value>The selected encoding cannot represent all characters in the subject or message. Please choose UTF-8.</value>
+  </data>
+  <data name="The test email was accepted by the SMTP server. Delivery to the recipient's inbox is not yet confirmed." xml:space="preserve">
+    <value>The test email was accepted by the SMTP server. Delivery to the recipient's inbox is not yet confirmed.</value>
+  </data>
+  <data name="This is a test email." xml:space="preserve">
+    <value>This is a test email.</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="Unencrypted" xml:space="preserve">
+    <value>Unencrypted</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="Username / password" xml:space="preserve">
+    <value>Username / password</value>
+  </data>
+</root>
