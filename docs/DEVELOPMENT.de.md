@@ -1,12 +1,12 @@
 # KubSMTP
 
-Native SMTP-Testanwendung für Windows, C#/.NET 10 und WinUI 3. Aktuelle Version: **v.1.0.9**.
+Native SMTP-Testanwendung für Windows, C#/.NET 10 und WinUI 3. Aktuelle Quellcode-Version: **v.1.0.16**.
 
 ## Starten
 
 Die portable x64-Ausgabe liegt als **einzelne Datei** unter `artifacts/KubSMTP.App.exe`. Nur diese EXE kopieren und starten; .NET, WinUI, Bibliotheken und Ressourcen sind enthalten. Eine separate Runtime-Installation ist nicht erforderlich. Seit v.1.0.9 zeigt ein nativer Starter beim ersten Start ein Fortschrittsfenster mit Prozentanzeige und Abbrechen-Schaltfläche. Er entpackt die Programmdateien und startet KubSMTP direkt aus dem vollständigen Cache. Weitere Starts verwenden diesen Cache ohne erneutes Entpacken und ohne Fortschrittsfenster. Nach einem Update mit geändertem Inhalt oder dem Entfernen des Caches wird erneut entpackt. Es gibt keinen Installer und es sind keine Administratorrechte nötig. Die äußere EXE darf auch umbenannt werden.
 
-Dieselbe portable EXE liegt auch unter `artifacts/KubSMTP-win-x64/KubSMTP.App.exe` und `artifacts/KubSMTP-win-x64-v1.0.9/KubSMTP.App.exe`. Zusätzliche Dateien aus älteren Veröffentlichungen in diesen Ordnern werden für die Einzeldatei-Ausgabe nicht benötigt. Bei Ausführungsbeschränkungen auf Netzwerkfreigaben nur die EXE lokal kopieren. Windows 11 x64 ist die primäre Zielplattform.
+Dieselbe portable EXE liegt auch unter `artifacts/KubSMTP-win-x64/KubSMTP.App.exe` und `artifacts/KubSMTP-win-x64-v1.0.16/KubSMTP.App.exe`. Zusätzliche Dateien aus älteren Veröffentlichungen in diesen Ordnern werden für die Einzeldatei-Ausgabe nicht benötigt. Bei Ausführungsbeschränkungen auf Netzwerkfreigaben nur die EXE lokal kopieren. Windows 11 x64 ist die primäre Zielplattform.
 
 ## Verwendung
 
@@ -16,9 +16,9 @@ Die Portauswahl bietet 25, 465, 587 und 2525 sowie „Benutzerdefiniert“ für 
 
 Absender, Empfänger, CC/BCC, Betreff und Text oder HTML eingeben, optional mehrere Dateien anhängen und „Testmail senden“ verwenden. Beide Nachrichtenformate enthalten eine bearbeitbare Testmail-Vorlage mit Hinweis auf KubSMTP. Beim Formatwechsel bleibt der zuletzt bearbeitete Inhalt je Format während der Sitzung erhalten. Direkt neben dem Nachrichtenformat lässt sich die Codierung auswählen: UTF-8 (Standard), ISO-8859-1, Windows-1252 oder US-ASCII. Sie wird für Nachrichtentext und Betreff verwendet und im Entwurf gespeichert; alte Entwürfe verwenden UTF-8. Nicht darstellbare Zeichen führen zu einer verständlichen Fehlermeldung statt stiller Ersetzung. Adresslisten akzeptieren Komma und Semikolon. Nach einem Versandversuch erscheint ein Popup mit Erfolg, Fehler oder Abbruch. „Vom SMTP-Server angenommen“ bestätigt keine Zustellung ins Postfach. Nach Timeout/Abbruch kann der Versandstatus unbekannt sein; es gibt keine automatische Wiederholung.
 
-Das linke Formular verwendet seit v.1.0.5 das native WinUI-ScrollView mit Maus-, Touchpad-, Touch- und Tastatureingabe sowie Trägheit und Scrollverkettung. Die eigenen Mausrad-Handler der vorherigen Ausgabe wurden entfernt. Der Nachrichteneditor kann seinen Inhalt weiterhin selbst scrollen. Das Liveprotokoll lässt sich rechts ein-/ausblenden, pausieren, kopieren und exportieren. Zugangsdaten und MIME-Inhalte werden vor UI- und Dateiausgabe ausgeblendet. Export kopiert die sichtbaren, begrenzten Zeilen; vollständige Sitzungsprotokolle liegen unter `Logs`. Serverantworten bleiben im Original.
+Das linke Formular verwendet seit v.1.0.11 einen nativen WinUI-ScrollViewer. Damit verwenden Formular und interne Scrollbereiche der Eingabefelder denselben Scrolltyp; Mausradbewegungen über einzeiligen Feldern werden an das Formular weitergegeben. Der Nachrichteneditor scrollt längere Inhalte selbst und reicht Scrollbewegungen an seinen Grenzen an das Formular weiter. Maus-, Touchpad-, Touch- und Tastatureingabe bleiben nativ; eigene Mausrad-Handler sind nicht erforderlich. Das Liveprotokoll lässt sich rechts ein-/ausblenden, pausieren, kopieren und exportieren. Zugangsdaten und MIME-Inhalte werden vor UI- und Dateiausgabe ausgeblendet. Export kopiert die sichtbaren, begrenzten Zeilen; vollständige Sitzungsprotokolle liegen unter `Logs`. Serverantworten bleiben im Original.
 
-Die Oberfläche einschließlich Versand-Popup verwendet die Windows-/WinUI-Designressourcen. Neutrale Flächen, Eingabefelder, Rahmen, Textfarben und Akzentbuttons folgen dem hellen bzw. dunklen Windows-App-Modus. Änderungen der Systemeinstellung werden während der Laufzeit über `UISettings.ColorValuesChanged` auf den UI-Thread übernommen; ein Neustart ist nicht erforderlich. Das Liveprotokoll verwendet seit v.1.0.7 wieder unabhängig vom Systemmodus seine ursprüngliche dunkelblaue Farbpalette: Client-Befehle cyan, Serverantworten hellgrün, Hinweise blaugrau sowie Fehler und Zertifikatswarnungen orange.
+Die Oberfläche einschließlich Versand-Popup verwendet die Windows-/WinUI-Designressourcen. Neutrale Flächen, Eingabefelder, Rahmen, Textfarben und Akzentbuttons folgen dem hellen bzw. dunklen Windows-App-Modus. Änderungen der Systemeinstellung werden während der Laufzeit über `UISettings.ColorValuesChanged` auf den UI-Thread übernommen; ein Neustart ist nicht erforderlich. Das Liveprotokoll verwendet unabhängig vom Systemmodus eine dunkle Terminaldarstellung. Seit v.1.0.16 sind Client-Zeilen hellcyan, Server-Zeilen hellgelb, Hinweise grün, Warnungen orange und Fehler hellrot.
 
 Die Windows-Anzeigesprache bestimmt Deutsch (`de-*`) oder Englisch als Fallback. Es gibt keinen Sprachumschalter. Änderungen der Windows-Sprache werden beim nächsten Programmstart berücksichtigt.
 
@@ -72,3 +72,37 @@ Der native Fortschrittsdialog und sein Abbrechen-Button wurden im Windows-Fenste
 Der Starter wird mit [Zig 0.17.1](https://ziglang.org/download/) gebaut. Für `zig-x86_64-windows-0.17.1.zip` wurde SHA-256 `b03f477a1943673e02aca0f570e8030dffd536ce1f45cbc4d3326ec31159562e` überprüft. Windows Cabinet/XPRESS-Huffman übernimmt die Kompression und Dekompression; es werden keine zusätzlichen Werkzeuge auf dem Zielrechner gestartet oder installiert.
 
 Für isolierte Entwicklertests dienen `KUBSMTP_PORTABLE_CACHE` und `KUBSMTP_PORTABLE_TRACE`. Nur bei aktivierter Diagnose kann `KUBSMTP_PORTABLE_UI_TEST_DELAY_MS` die Extraktion für UI-Tests verzögern (maximal 100 ms je Block); im normalen Betrieb gibt es keine künstliche Verzögerung. `Measure-Startup.ps1` unterscheidet jetzt `FeedbackMs` (erstes sichtbares Fenster, ggf. Fortschritt) und `WindowMs` (eigentliches KubSMTP-Fenster).
+
+## Startdialog v.1.0.10
+
+Der native Startdialog folgt der bereitgestellten KubDHCP-Vorlage mit KubSMTP-Namen und -Icon: dunkler Hintergrund, große Überschrift, separate Statuszeile mit Prozentwert und flacher türkisfarbener Fortschrittsbalken. Das Schließen-Symbol oben rechts ersetzt den bisherigen zusätzlichen Abbrechen-Button. Der Dialog skaliert mit der Bildschirm-DPI, verwendet einen abgerundeten Windows-Fensterrahmen und benötigt weiterhin ausschließlich Windows-Systembibliotheken. Deutsch und Englisch werden weiterhin anhand der Windows-Anzeigesprache gewählt.
+
+Die Darstellung und der Abbruch über das Schließen-Symbol wurden im echten Windows-Fenster geprüft. Der Abbruch hinterließ keinen vollständigen Cache. Der portable Test bestätigt weiterhin Fortschritts-Zwischenwerte, einen Start ohne installierte Runtime, den Folgestart aus dem Cache sowie die unveränderte Hauptoberfläche in beiden Designs.
+
+## Scrollkorrektur v.1.0.11
+
+Das Formular verwendet jetzt ScrollViewer statt ScrollView, passend zu den internen ScrollViewern der Textfelder. Die Aufnahmeoption --capture-bottom wurde an den neuen Steuerelementtyp angepasst. Im Windows-Fenster wurde das Scrollen über Server- und Absenderfeld in beide Richtungen geprüft. Release-Build, vorhandener Testläufer und portabler Kalt-/Warmstart einschließlich beider Designs waren erfolgreich. Physische Touchpad-Eingabe wurde nicht geprüft.
+
+## Kompaktes Formular v.1.0.12
+
+Links stehen Verschlüsselung und Anmeldung sowie Absender und Empfänger jeweils in zwei gleich breiten Spalten. Betreff und Nachrichtenformat/Codierung teilen sich eine weitere Zeile; der mehrzeilige Nachrichteneditor bleibt über die volle Breite. Anhang- und Entwurfsbutton stehen nebeneinander. Die abschließende Zeile zeigt links Anhangszahl und Status und rechts den Sendebutton. Der zusätzliche Trennabstand vor dem Sendebutton entfällt. Dadurch entfallen bei unveränderten Feldhöhen drei bisher separate Formularzeilen und zusätzlicher Trennabstand.
+
+## Gemeinsame Verbindungsaktionen v.1.0.13
+
+Der aufklappbare Bereich für Serverprofil und Zugangsdaten steht links neben dem Verbindungstest. Der Sitzungshinweis befindet sich im aufgeklappten Profilbereich. Der Verbindungstest bleibt beim Aufklappen oben in derselben Zeile; im eingeklappten Zustand entfällt eine weitere Formularzeile.
+
+## Terminaldarstellung v.1.0.14
+
+Das Liveprotokoll folgt der Bildvorlage mit fast schwarzem, leicht grünem Hintergrund (#0C1511), grünem Rahmen (#334C3E), Monospace-Titel, grüner Statusanzeige mit Wiedergabesymbol und grünen Protokollzeilen (#86E9A8). Zeitstempel stehen in eckigen Klammern; Warnungen und Fehler bleiben orange erkennbar. Die bisherigen Zwischenlinien und die separate Client-/Server-Legendenzeile entfallen; die Legende steht im Untertitel. Kopieren, Export, Leeren, Autoscroll und Pause bleiben am unteren Rand verfügbar. Die Trennlinien unter der Titel- und über der Statusleiste verwenden im dunklen Design den aus der zweiten Vorlage übernommenen Grauwert #323232; im hellen Design #D0D0D0.
+
+Release-Build und portabler Kalt-/Warmstart wurden erfolgreich geprüft. Die kompakte Hauptansicht wurde nach einem Designwechsel im selben Fenster hell und dunkel gerendert und visuell kontrolliert: gemeinsame Profil-/Testzeile, Terminaldarstellung und beide grauen Fenstertrennlinien.
+
+## Kompakter Fensterstart v.1.0.15
+
+Beim Start bleibt das Liveprotokoll ausgeblendet. Das Fenster beginnt mit 700 logischen Pixeln Breite; seine Höhe folgt dem Formularinhalt. Der Liveprotokoll-Button erweitert das Fenster um einen gleich breiten rechten Bereich und verkleinert es beim Ausblenden wieder auf die Formularbreite. Beide Bereiche enden auf gleicher Höhe. Die Arbeitsbereichshöhe ist durch den Formularinhalt begrenzt. Größen berücksichtigen die DPI-Skalierung und den verfügbaren Monitor-Arbeitsbereich; auf kleineren Bildschirmen bleibt das Formular scrollbar.
+
+--capture-layout-cycle prüft den kompakten Start, die Vergrößerung, gleiche Breite/Höhe der beiden Bereiche, fehlenden Leerraum unter dem Formular und die Rückkehr zur Ausgangsgröße. Aufnahmen UI-layout-start.png / UI-layout-log.png und layout-check.json entstehen im Exportordner. Der portable Kalt-/Warmstarttest führt diesen Zyklus ebenfalls aus. --capture-log zeigt das Protokoll für gezielte Aufnahmen an.
+
+## Unterscheidbare Protokollfarben v.1.0.16
+
+Client-Zeilen (C) erscheinen hellcyan (#67D8FF), Server-Zeilen (S) hellgelb (#F3DE8A). Kennbuchstabe und Nachricht verwenden jeweils dieselbe Rollenfarbe; Zeitstempel sind dezent graugrün. Hinweise bleiben grün, Warnungen orange, Fehler hellrot. Alle Textfarben heben sich deutlich vom Hintergrund #0C1511 ab. Die Kombination --capture-ui --capture-log --capture-log-sample rendert ausschließlich für die Entwicklung fiktive C-/S-/I-/W-/E-Zeilen, ohne SMTP-Verbindung oder Mailversand.

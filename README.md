@@ -6,7 +6,7 @@
 
 KubSMTP ist ein portables SMTP-Testprogramm für Windows. Es testet Mailserver-Verbindungen, versendet Testmails und zeigt SMTP-Kommunikation sowie TLS-Zertifikatsfehler im Liveprotokoll.
 
-**[Portable EXE herunterladen](https://github.com/nkxy1/KubSMTP/releases/latest)** · Version **1.0.9** · Windows x64, primär Windows 11
+**[Portable EXE herunterladen](https://github.com/nkxy1/KubSMTP/releases/latest)** · Quellcode-Version **1.0.16** · Windows x64, primär Windows 11
 
 ![KubSMTP mit Testdaten](docs/screenshots/KubSMTP-demo.jpg)
 
@@ -16,7 +16,9 @@ KubSMTP ist ein portables SMTP-Testprogramm für Windows. Es testet Mailserver-V
 
 1. `KubSMTP.App.exe` aus dem aktuellen Release herunterladen und in einen beliebigen Ordner kopieren.
 2. Die EXE starten. .NET, WinUI und alle benötigten Programmbibliotheken sind enthalten. Eine Runtime-Installation oder Administratorrechte sind nicht nötig.
-3. Beim ersten Start zeigt ein Fortschrittsfenster das Entpacken mit Prozentanzeige und Abbrechen-Schaltfläche. Weitere Starts verwenden den Cache ohne erneutes Entpacken. Nach einem Update mit geändertem Inhalt oder dem Entfernen des Caches wird erneut entpackt.
+3. Beim ersten Start zeigt ein dunkles Fortschrittsfenster das Entpacken mit Prozentanzeige. Das Schließen-Symbol oben rechts bricht die Vorbereitung ab. Weitere Starts verwenden den Cache ohne erneutes Entpacken. Nach einem Update mit geändertem Inhalt oder dem Entfernen des Caches wird erneut entpackt.
+
+Das Programm startet mit dem kompakten Formular. „Liveprotokoll“ erweitert das Fenster um den gleich großen Protokollbereich; ein erneuter Klick blendet ihn aus und verkleinert das Fenster wieder.
 
 ## Funktionen
 
@@ -32,7 +34,7 @@ KubSMTP ist ein portables SMTP-Testprogramm für Windows. Es testet Mailserver-V
 | Ergebnis | Popup nach dem Versand mit Erfolg, Fehler oder Abbruch |
 | Liveprotokoll | Farbige Client-/Server-Kommunikation; Autoscroll, Pause, Leeren, Kopieren und Export |
 | Wiederverwendung | Serverprofil und Mailentwürfe ausdrücklich speichern und laden |
-| Darstellung | Automatischer Wechsel mit dem Windows-Hell-/Dunkelmodus; separates dunkelblaues Liveprotokoll |
+| Darstellung | Automatischer Wechsel mit dem Windows-Hell-/Dunkelmodus; separates dunkles Liveprotokoll mit farbiger Terminalschrift |
 | Sprache | Deutsch bei deutscher Windows-Anzeigesprache, sonst Englisch |
 
 ## Eine Testmail senden

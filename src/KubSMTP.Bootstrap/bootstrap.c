@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <wchar.h>
+#include <dwmapi.h>
 
 /* The bootstrap has no .NET dependency. Cabinet, BCrypt, and the GUI are Windows APIs. */
 #define PROGRESS_MSG (WM_APP+1)
@@ -16,7 +17,16 @@
 #define HIDE_MSG (WM_APP+3)
 #define DONE_MSG (WM_APP+4)
 #define LIMIT_PATH 32768
-static HWND window,bar,label,cancelButton;
+static HWND window,bar,label,heading,cancelButton;
+static HFONT titleFont,headingFont,bodyFont;
+static HICON startupIcon;
+static HBRUSH background;
+static UINT dpi=96;
+#define BACKGROUND RGB(32,32,32)
+#define FOREGROUND RGB(245,245,245)
+#define SECONDARY RGB(197,197,197)
+#define TRACK RGB(60,60,60)
+#define ACCENT RGB(47,182,219)
 static volatile LONG cancelled,childStarted;
 static DWORD resultCode;
 static int german;
@@ -124,21 +134,67 @@ end:
  if(failure[0])resultCode=1;else if(cancelled&&!childStarted)resultCode=ERROR_CANCELLED;
  PostMessageW(window,DONE_MSG,0,0);return 0;
 }
+static int px(int value){return MulDiv(value,dpi,96);}
+static HFONT font(int size){return CreateFontW(-px(size),0,0,0,FW_NORMAL,FALSE,FALSE,FALSE,DEFAULT_CHARSET,OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,CLEARTYPE_QUALITY,DEFAULT_PITCH,L"Segoe UI");}
+static void layout(HWND hwnd){
+ RECT area;GetClientRect(hwnd,&area);
+ if(titleFont)DeleteObject(titleFont);if(headingFont)DeleteObject(headingFont);if(bodyFont)DeleteObject(bodyFont);
+ titleFont=font(14);headingFont=font(24);bodyFont=font(16);
+ MoveWindow(heading,px(30),px(60),area.right-px(60),px(36),TRUE);
+ MoveWindow(label,px(30),px(102),area.right-px(60),px(28),TRUE);
+ MoveWindow(bar,px(30),px(149),area.right-px(64),px(10),TRUE);
+ MoveWindow(cancelButton,area.right-px(40),0,px(40),px(34),TRUE);
+ SendMessageW(heading,WM_SETFONT,(WPARAM)headingFont,TRUE);SendMessageW(label,WM_SETFONT,(WPARAM)bodyFont,TRUE);
+ InvalidateRect(hwnd,NULL,TRUE);
+}
+/* Keep the native progress control's accessible value, but paint the flat track from the reference. */
+static LRESULT CALLBACK progress_procedure(HWND hwnd,UINT message,WPARAM w,LPARAM l,UINT_PTR id,DWORD_PTR data){
+ if(message==WM_ERASEBKGND)return 1;
+ if(message==WM_PAINT){
+  PAINTSTRUCT paint;HDC dc=BeginPaint(hwnd,&paint);RECT area;GetClientRect(hwnd,&area);
+  HBRUSH track=CreateSolidBrush(TRACK),fill=CreateSolidBrush(ACCENT);FillRect(dc,&area,track);
+  area.right=MulDiv(area.right,(int)SendMessageW(hwnd,PBM_GETPOS,0,0),10000);FillRect(dc,&area,fill);
+  DeleteObject(track);DeleteObject(fill);EndPaint(hwnd,&paint);return 0;
+ }
+ if(message==PBM_SETPOS){LRESULT result=DefSubclassProc(hwnd,message,w,l);InvalidateRect(hwnd,NULL,FALSE);return result;}
+ return DefSubclassProc(hwnd,message,w,l);
+}
 static LRESULT CALLBACK procedure(HWND hwnd,UINT message,WPARAM w,LPARAM l){
  switch(message){
+ case WM_NCCALCSIZE:if(w)return 0;break;
+ case WM_NCHITTEST:{
+  POINT point={(short)LOWORD(l),(short)HIWORD(l)};ScreenToClient(hwnd,&point);RECT area;GetClientRect(hwnd,&area);
+  if(point.y>=0&&point.y<px(34)&&point.x<area.right-px(40))return HTCAPTION;
+  return HTCLIENT;}
  case WM_CREATE:{
-  HFONT font=(HFONT)GetStockObject(DEFAULT_GUI_FONT);
-  label=CreateWindowW(L"STATIC",T(L"KubSMTP wird für den ersten Start vorbereitet …",L"Preparing KubSMTP for its first start …"),WS_CHILD|WS_VISIBLE,20,18,420,38,hwnd,NULL,NULL,NULL);
-  bar=CreateWindowExW(0,PROGRESS_CLASSW,NULL,WS_CHILD|WS_VISIBLE,20,62,420,22,hwnd,NULL,NULL,NULL);SendMessageW(bar,PBM_SETRANGE32,0,10000);
-  cancelButton=CreateWindowW(L"BUTTON",T(L"Abbrechen",L"Cancel"),WS_CHILD|WS_VISIBLE|WS_TABSTOP,340,100,100,28,hwnd,(HMENU)1,NULL,NULL);
-  SendMessageW(label,WM_SETFONT,(WPARAM)font,TRUE);SendMessageW(cancelButton,WM_SETFONT,(WPARAM)font,TRUE);return 0;}
- case PROGRESS_MSG:{wchar_t text[160];_snwprintf(text,160,T(L"Programmdateien werden entpackt … %u %%",L"Extracting application files … %u %%"),(unsigned)w/100);SetWindowTextW(label,text);SendMessageW(bar,PBM_SETPOS,w,0);event("progress",(unsigned)w);return 0;}
+  dpi=GetDpiForWindow(hwnd);
+  heading=CreateWindowW(L"STATIC",T(L"KubSMTP wird vorbereitet",L"Preparing KubSMTP"),WS_CHILD|WS_VISIBLE|SS_LEFT,0,0,0,0,hwnd,NULL,NULL,NULL);
+  label=CreateWindowW(L"STATIC",T(L"Programmdateien entpacken · 0%",L"Extracting application files · 0%"),WS_CHILD|WS_VISIBLE|SS_LEFT,0,0,0,0,hwnd,NULL,NULL,NULL);
+  bar=CreateWindowExW(0,PROGRESS_CLASSW,NULL,WS_CHILD|WS_VISIBLE,0,0,0,0,hwnd,NULL,NULL,NULL);SendMessageW(bar,PBM_SETRANGE32,0,10000);SetWindowSubclass(bar,progress_procedure,1,0);
+  cancelButton=CreateWindowW(L"BUTTON",T(L"Abbrechen",L"Cancel"),WS_CHILD|WS_VISIBLE|WS_TABSTOP|BS_OWNERDRAW,0,0,0,0,hwnd,(HMENU)1,NULL,NULL);
+  layout(hwnd);return 0;}
+ case WM_SIZE:if(heading)layout(hwnd);return 0;
+ case WM_DPICHANGED:{dpi=HIWORD(w);RECT *area=(RECT *)l;SetWindowPos(hwnd,NULL,area->left,area->top,px(536),px(195),SWP_NOZORDER|SWP_NOACTIVATE);layout(hwnd);return 0;}
+ case WM_ERASEBKGND:return 1;
+ case WM_CTLCOLORSTATIC:{HDC dc=(HDC)w;SetBkColor(dc,BACKGROUND);SetTextColor(dc,(HWND)l==heading?FOREGROUND:SECONDARY);return (LRESULT)background;}
+ case WM_PAINT:{
+  PAINTSTRUCT paint;HDC dc=BeginPaint(hwnd,&paint);RECT area;GetClientRect(hwnd,&area);FillRect(dc,&area,background);
+  DrawIconEx(dc,px(6),px(9),startupIcon,px(16),px(16),0,NULL,DI_NORMAL);
+  HFONT previous=(HFONT)SelectObject(dc,titleFont);SetBkMode(dc,TRANSPARENT);SetTextColor(dc,FOREGROUND);
+  RECT title={px(30),px(9),area.right-px(45),px(30)};DrawTextW(dc,L"KubSMTP",-1,&title,DT_LEFT|DT_SINGLELINE|DT_NOPREFIX);SelectObject(dc,previous);
+  EndPaint(hwnd,&paint);return 0;}
+ case WM_DRAWITEM:if(w==1){
+  DRAWITEMSTRUCT *item=(DRAWITEMSTRUCT *)l;HBRUSH fill=CreateSolidBrush((item->itemState&ODS_SELECTED)?RGB(160,30,25):BACKGROUND);FillRect(item->hDC,&item->rcItem,fill);DeleteObject(fill);
+  HPEN pen=CreatePen(PS_SOLID,px(1),IsWindowEnabled(cancelButton)?FOREGROUND:SECONDARY);HPEN previous=(HPEN)SelectObject(item->hDC,pen);
+  int x=(item->rcItem.right+item->rcItem.left)/2,y=px(17),r=px(5);MoveToEx(item->hDC,x-r,y-r,NULL);LineTo(item->hDC,x+r,y+r);MoveToEx(item->hDC,x+r,y-r,NULL);LineTo(item->hDC,x-r,y+r);
+  SelectObject(item->hDC,previous);DeleteObject(pen);if(item->itemState&ODS_FOCUS)DrawFocusRect(item->hDC,&item->rcItem);return TRUE;}break;
+ case PROGRESS_MSG:{wchar_t text[160];_snwprintf(text,160,T(L"Programmdateien entpacken · %u%%",L"Extracting application files · %u%%"),(unsigned)w/100);SetWindowTextW(label,text);SendMessageW(bar,PBM_SETPOS,w,0);event("progress",(unsigned)w);return 0;}
  case STARTED_MSG:EnableWindow(cancelButton,FALSE);SetWindowTextW(label,T(L"KubSMTP wird gestartet …",L"Starting KubSMTP …"));return 0;
  case HIDE_MSG:ShowWindow(hwnd,SW_HIDE);return 0;
  case WM_COMMAND:if(LOWORD(w)!=1&&LOWORD(w)!=IDCANCEL)break;/* fall through */
  case WM_CLOSE:if(childStarted)ShowWindow(hwnd,SW_HIDE);else{InterlockedExchange(&cancelled,1);EnableWindow(cancelButton,FALSE);SetWindowTextW(label,T(L"Wird abgebrochen …",L"Cancelling …"));}return 0;
  case DONE_MSG:if(failure[0])MessageBoxW(hwnd,failure,L"KubSMTP",MB_OK|MB_ICONERROR);DestroyWindow(hwnd);return 0;
- case WM_DESTROY:PostQuitMessage(0);return 0;
+ case WM_DESTROY:DeleteObject(titleFont);DeleteObject(headingFont);DeleteObject(bodyFont);DeleteObject(background);PostQuitMessage(0);return 0;
  }
  return DefWindowProcW(hwnd,message,w,l);
 }
@@ -155,9 +211,11 @@ int WINAPI wWinMain(HINSTANCE instance,HINSTANCE previous,LPWSTR cmd,int show){
  for(int i=0;i<32;i++)swprintf(hex+i*2,3,L"%02x",payloadDigest[i]);if(_snwprintf(cache,LIMIT_PATH,L"%ls\\%ls",base,hex)<0)return 1;
  if(_snwprintf(marker,LIMIT_PATH,L"%ls\\.ready",cache)<0)return 1;
  INITCOMMONCONTROLSEX controls={sizeof(controls),ICC_PROGRESS_CLASS};InitCommonControlsEx(&controls);
- WNDCLASSW cls={0};cls.lpfnWndProc=procedure;cls.hInstance=instance;cls.hCursor=LoadCursor(NULL,IDC_ARROW);cls.hIcon=LoadIconW(instance,MAKEINTRESOURCEW(1));cls.hbrBackground=(HBRUSH)(COLOR_WINDOW+1);cls.lpszClassName=L"KubSMTP.PortableStartup";RegisterClassW(&cls);
- RECT rectangle={0,0,460,148};AdjustWindowRect(&rectangle,WS_OVERLAPPED|WS_CAPTION|WS_SYSMENU,FALSE);int width=rectangle.right-rectangle.left,height=rectangle.bottom-rectangle.top;
- window=CreateWindowW(cls.lpszClassName,T(L"KubSMTP – Startvorbereitung",L"KubSMTP – Preparing startup"),WS_OVERLAPPED|WS_CAPTION|WS_SYSMENU,(GetSystemMetrics(SM_CXSCREEN)-width)/2,(GetSystemMetrics(SM_CYSCREEN)-height)/2,width,height,NULL,NULL,instance,NULL);
+ background=CreateSolidBrush(BACKGROUND);startupIcon=LoadIconW(instance,MAKEINTRESOURCEW(1));dpi=GetDpiForSystem();
+ WNDCLASSW cls={0};cls.lpfnWndProc=procedure;cls.hInstance=instance;cls.hCursor=LoadCursor(NULL,IDC_ARROW);cls.hIcon=startupIcon;cls.hbrBackground=background;cls.lpszClassName=L"KubSMTP.PortableStartup";RegisterClassW(&cls);
+ int width=px(536),height=px(195);
+ window=CreateWindowW(cls.lpszClassName,L"KubSMTP",WS_POPUP|WS_THICKFRAME|WS_CAPTION|WS_SYSMENU,(GetSystemMetrics(SM_CXSCREEN)-width)/2,(GetSystemMetrics(SM_CYSCREEN)-height)/2,width,height,NULL,NULL,instance,NULL);
+ if(window){BOOL dark=TRUE;DWORD corner=2;COLORREF border=RGB(60,60,60);DwmSetWindowAttribute(window,20,&dark,sizeof(dark));DwmSetWindowAttribute(window,33,&corner,sizeof(corner));DwmSetWindowAttribute(window,34,&border,sizeof(border));SetWindowPos(window,NULL,0,0,0,0,SWP_NOMOVE|SWP_NOSIZE|SWP_NOZORDER|SWP_FRAMECHANGED);}
  if(!window)return 1;int cached=ready();if(!cached){ShowWindow(window,SW_SHOW);UpdateWindow(window);event("progress-visible",IsWindowVisible(window)?1:0);}
  HANDLE worker=CreateThread(NULL,0,run,NULL,0,NULL);if(!worker)return 1;
  MSG message;while(GetMessageW(&message,NULL,0,0)>0){if(!IsDialogMessageW(window,&message)){TranslateMessage(&message);DispatchMessageW(&message);}}

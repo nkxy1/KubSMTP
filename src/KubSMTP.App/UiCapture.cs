@@ -30,7 +30,29 @@ internal static class UiCapture
   root.Loaded+=async(_,_)=>{
    try{
     await Task.Delay(1500);
-    if(arguments.Contains("--capture-bottom") && root.FindName("formScroll") is Microsoft.UI.Xaml.Controls.ScrollView scroll){scroll.ScrollTo(0,scroll.ScrollableHeight,new Microsoft.UI.Xaml.Controls.ScrollingScrollOptions(Microsoft.UI.Xaml.Controls.ScrollingAnimationMode.Disabled));await Task.Delay(300);}
+    if(arguments.Contains("--capture-layout-cycle") && window is MainWindow main)
+    {
+     var panel=(FrameworkElement)root.FindName("logPanel");
+     var form=(FrameworkElement)root.FindName("formScroll");
+     var fields=(FrameworkElement)root.FindName("fields");
+     var initial=window.AppWindow.ClientSize;
+     if(panel.Visibility!=Visibility.Collapsed)throw new InvalidOperationException("Live log must be hidden on startup");
+     var workspace=(FrameworkElement)root.FindName("workspace");
+     if(root is Microsoft.UI.Xaml.Controls.Grid layout && layout.RowDefinitions[2].ActualHeight-workspace.ActualHeight-workspace.Margin.Top-workspace.Margin.Bottom>2)throw new InvalidOperationException("Unused space above status bar");
+     await Save("UI-layout-start.png");
+     main.ToggleLog();await Task.Delay(400);
+     var expanded=window.AppWindow.ClientSize;
+     if(panel.Visibility!=Visibility.Visible || expanded.Width<=initial.Width)throw new InvalidOperationException("Live log must expand the window");
+     if(Math.Abs(panel.ActualWidth-form.ActualWidth)>4 || Math.Abs(panel.ActualHeight-form.ActualHeight)>1)throw new InvalidOperationException("Form and live log must have equal size");
+     if(form.ActualHeight>fields.ActualHeight+1)throw new InvalidOperationException("Unused space below form");
+     await Save("UI-layout-log.png");
+     main.ToggleLog();await Task.Delay(400);
+     var restored=window.AppWindow.ClientSize;
+     if(panel.Visibility!=Visibility.Collapsed || Math.Abs(restored.Width-initial.Width)>2 || restored.Height!=initial.Height)throw new InvalidOperationException($"Hiding the log must restore the compact window: {initial.Width}x{initial.Height} -> {expanded.Width}x{expanded.Height} -> {restored.Width}x{restored.Height}");
+     File.WriteAllText(Path.Combine(exportDirectory,"layout-check.json"),System.Text.Json.JsonSerializer.Serialize(new{Initial=initial.Width,Expanded=expanded.Width,Restored=restored.Width,Height=restored.Height,EqualPaneSizes=true,NoUnusedFormSpace=true}));
+    }
+    if(arguments.Contains("--capture-log") && window is MainWindow logWindow){logWindow.ToggleLog();await Task.Delay(400);}
+    if(arguments.Contains("--capture-bottom") && root.FindName("formScroll") is Microsoft.UI.Xaml.Controls.ScrollViewer scroll){scroll.ChangeView(null,scroll.ScrollableHeight,null,true);await Task.Delay(300);}
     if(arguments.Contains("--capture-theme-cycle"))
     {
      var opposite=dark?ElementTheme.Light:ElementTheme.Dark;

@@ -35,5 +35,5 @@ $taskResPath=Join-Path $OutputDirectory 'bootstrap.res'
 Set-Content -LiteralPath $taskRcPath -Value $taskRc -Encoding utf8
 & $Zig rc /fo $taskResPath $taskRcPath
 if($LASTEXITCODE -ne 0){throw 'Native resource compilation failed'}
-& $Zig cc -target x86_64-windows-gnu -O2 -s -municode '-Wl,--subsystem,windows' -DUNICODE -D_UNICODE (Join-Path $taskRoot 'src/KubSMTP.Bootstrap/bootstrap.c') $taskResPath -lcomctl32 -lgdi32 -lshell32 -lole32 -lbcrypt -lcabinet -luuid -static -o (Join-Path $OutputDirectory 'bootstrap.exe')
+& $Zig cc -target x86_64-windows-gnu -O2 -s -municode '-Wl,--subsystem,windows' -DUNICODE -D_UNICODE (Join-Path $taskRoot 'src/KubSMTP.Bootstrap/bootstrap.c') $taskResPath -lcomctl32 -lgdi32 -ldwmapi -lshell32 -lole32 -lbcrypt -lcabinet -luuid -static -o (Join-Path $OutputDirectory 'bootstrap.exe')
 if($LASTEXITCODE -ne 0){throw 'Native bootstrap compilation failed'}

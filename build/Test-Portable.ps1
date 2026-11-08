@@ -16,7 +16,7 @@ foreach($taskMode in @('cold','warm')) {
  $taskInfo.UseShellExecute=$false
  $taskInfo.WorkingDirectory=$taskQa
  $taskInfo.WindowStyle=[Diagnostics.ProcessWindowStyle]::Normal
- $taskInfo.Arguments='--capture-ui --capture-theme-cycle --capture-compact'
+ $taskInfo.Arguments='--capture-ui --capture-theme-cycle --capture-compact --capture-layout-cycle'
  foreach($taskName in @('DOTNET_ROOT','DOTNET_ROOT_X64')){$taskInfo.EnvironmentVariables[$taskName]=$taskEmptyRuntime}
  $taskInfo.EnvironmentVariables['DOTNET_MULTILEVEL_LOOKUP']='0'
  $taskInfo.EnvironmentVariables['DOTNET_DISABLE_GUI_ERRORS']='1'
@@ -34,6 +34,10 @@ foreach($taskMode in @('cold','warm')) {
   $taskCapture=Get-Item -LiteralPath (Join-Path $taskExports $taskImage)
   if($taskCapture.LastWriteTime -lt $taskStarted -or $taskCapture.Length -lt 1024){throw "No new rendered UI: $taskImage"}
  }
+ $taskLayout=Get-Item -LiteralPath (Join-Path $taskExports 'layout-check.json')
+ if($taskLayout.LastWriteTime -lt $taskStarted){throw 'No fresh window layout check'}
+ $taskLayoutResult=Get-Content -LiteralPath $taskLayout.FullName -Raw | ConvertFrom-Json
+ if(!$taskLayoutResult.EqualPaneSizes -or !$taskLayoutResult.NoUnusedFormSpace -or $taskLayoutResult.Expanded -le $taskLayoutResult.Initial -or [Math]::Abs($taskLayoutResult.Restored-$taskLayoutResult.Initial) -gt 2){throw 'Window layout cycle failed'}
  $taskHost=Get-Content -LiteralPath (Join-Path $taskQa "$taskMode-host.txt") -Raw
  if(!$taskHost.Contains('Executing as a self-contained app')){throw 'Payload requires an external runtime'}
  if($taskHost.Contains('Detected Single-File app bundle')){throw 'Payload must not perform a second hidden extraction'}

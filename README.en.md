@@ -6,7 +6,7 @@
 
 KubSMTP is a portable SMTP testing application for Windows. Test mail server connections, send test messages and inspect SMTP traffic and TLS certificate errors in a live log.
 
-**[Download the portable EXE](https://github.com/nkxy1/KubSMTP/releases/latest)** · Version **1.0.9** · Windows x64, primarily Windows 11
+**[Download the portable EXE](https://github.com/nkxy1/KubSMTP/releases/latest)** · Source version **1.0.16** · Windows x64, primarily Windows 11
 
 ![KubSMTP with test data](docs/screenshots/KubSMTP-demo.jpg)
 
@@ -16,7 +16,9 @@ KubSMTP is a portable SMTP testing application for Windows. Test mail server con
 
 1. Download `KubSMTP.App.exe` from the latest release and copy it to a folder of your choice.
 2. Run the EXE. .NET, WinUI and the required application libraries are included. No runtime installation or administrator privileges are needed.
-3. On first launch, a progress window shows extraction progress with a percentage and a Cancel button. Subsequent launches reuse the cache without extracting again. Extraction runs again after an update that changes the payload or after the cache is removed.
+3. On first launch, a dark progress window shows extraction progress with a percentage. The close button in the upper right cancels preparation. Subsequent launches reuse the cache without extracting again. Extraction runs again after an update that changes the payload or after the cache is removed.
+
+The app starts with the compact form. “Live log” expands the window to include an equally sized log pane; clicking again hides it and restores the compact window.
 
 ## Features
 
@@ -32,7 +34,7 @@ KubSMTP is a portable SMTP testing application for Windows. Test mail server con
 | Result | Popup reporting success, failure or cancellation after a send attempt |
 | Live log | Colored client/server traffic; automatic scrolling, pause, clear, copy and export |
 | Reuse | Explicitly save and load the server profile and message drafts |
-| Appearance | Follows Windows light/dark mode automatically; separate dark blue live log |
+| Appearance | Follows Windows light/dark mode automatically; separate dark live log with colored terminal text |
 | Language | German for a German Windows display language, otherwise English |
 
 ## Sending a test message
